@@ -91,7 +91,15 @@ class TxRestClient(TxInterface):
         dict_response = json.loads(response)
         self._fix_messages(dict_response["tx"]["body"]["messages"])
         self._fix_messages(dict_response["tx_response"]["tx"]["body"]["messages"])
-
+        
+        #fix bug - "cosmos.tx.v1beta1.AuthInfo" has no field named "tip" at "GetTxResponse.tx.auth_info".
+        if "tip" in dict_response["tx"]["auth_info"]:            
+            del dict_response["tx"]["auth_info"]["tip"]
+        if "tip" in dict_response["tx_response"]["tx"]["auth_info"]:            
+            del dict_response["tx_response"]["tx"]["auth_info"]["tip"]
+        if "events" in dict_response["tx_response"]:            
+            del dict_response["tx_response"]["events"]
+            
         return ParseDict(dict_response, GetTxResponse())
 
     def BroadcastTx(self, request: BroadcastTxRequest) -> BroadcastTxResponse:
