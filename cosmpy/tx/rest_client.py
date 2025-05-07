@@ -75,7 +75,8 @@ class TxRestClient(TxInterface):
             f"{self.API_URL}/simulate",
             request,
         )
-        return Parse(response, SimulateResponse())
+        #return Parse(response, SimulateResponse())
+        return Parse(json.dumps({"gas_info":json.loads(response)['gas_info']}).encode("utf-8"), SimulateResponse())
 
     def GetTx(self, request: GetTxRequest) -> GetTxResponse:
         """
