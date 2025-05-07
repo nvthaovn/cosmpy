@@ -66,7 +66,8 @@ class SimulationGasStrategy(GasStrategy):
         :param multiplier: multiplier, defaults to None
         """
         self._client = client
-        self._max_gas: Optional[int] = None
+        #self._max_gas: Optional[int] = None
+        self._max_gas: Optional[int] = -1
         self._multiplier = multiplier or self.DEFAULT_MULTIPLIER
 
     def estimate_gas(self, tx: Transaction) -> int:
